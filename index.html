@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confidence Gap Survey | Thinker Media Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF;
+    --paper:#F3F7FC;
+    --blue-deep:#0A2E55;
+    --blue:#1D5A9E;
+    --blue-mid:#2E6FB8;
+    --blue-soft:#EAF2FB;
+    --blue-line:#CBDCEE;
+    --ink:#152A44;
+    --muted:#5C7089;
+    --gold:#B8954A;
+    --danger:#B14343;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:radial-gradient(circle at 20% 15%, #FFFFFF 0%, #EAF1FA 55%, #DDE9F6 100%);
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .app{
+    width:100%;
+    max-width:680px;
+  }
+  .brandbar{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:18px;
+  }
+  .brand{
+    font-family:'Crimson Text',serif;
+    font-size:15px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+  .brand-large{
+    font-family:'Crimson Text',serif;
+    font-size:20px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--gold);
+    text-align:center;
+    margin-bottom:22px;
+  }
+  .progress-track{
+    height:3px;
+    width:100%;
+    background:var(--blue-line);
+    border-radius:3px;
+    margin-bottom:28px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--blue-mid),var(--blue-deep));
+    transition:width .35s ease;
+  }
+  .card{
+    background:var(--white);
+    border:1px solid var(--blue-line);
+    border-radius:14px;
+    padding:36px 34px;
+    box-shadow:0 20px 50px rgba(10,46,85,0.1);
+  }
+  .section-eyebrow{
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--blue-mid);
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  .qtext{
+    font-family:'Crimson Text',serif;
+    font-size:23px;
+    line-height:1.4;
+    font-weight:600;
+    color:var(--blue-deep);
+    margin:0 0 6px 0;
+  }
+  .qsub{
+    font-size:12.5px;
+    color:var(--muted);
+    margin-bottom:22px;
+    font-style:italic;
+  }
+  .intro-body{
+    font-size:15px;
+    line-height:1.7;
+    color:var(--ink);
+    margin-bottom:16px;
+  }
+  .intro-note{
+    background:var(--blue-soft);
+    border:1px solid var(--blue-line);
+    border-radius:9px;
+    padding:14px 16px;
+    font-size:13px;
+    line-height:1.6;
+    color:var(--muted);
+    margin-bottom:20px;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:14px 16px;
+    border-radius:9px;
+    border:1px solid var(--blue-line);
+    background:var(--white);
+    cursor:pointer;
+    transition:all .15s ease;
+    font-size:15px;
+    line-height:1.45;
+    color:var(--ink);
+  }
+  .opt:hover{
+    border-color:var(--blue-mid);
+    background:var(--blue-soft);
+  }
+  .opt.selected{
+    border-color:var(--blue);
+    background:var(--blue-soft);
+  }
+  .opt .marker{
+    flex:0 0 auto;
+    width:18px;height:18px;
+    border-radius:4px;
+    border:1.5px solid var(--blue-line);
+    margin-top:2px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .opt.radio .marker{ border-radius:50%; }
+  .opt.selected .marker{ border-color:var(--blue); background:var(--blue); }
+  .opt.selected .marker::after{
+    content:'';
+    width:8px;height:8px;
+    background:var(--white);
+    border-radius:2px;
+  }
+  .opt.radio.selected .marker::after{ border-radius:50%; }
+  .other-input{
+    margin-top:6px;
+    width:100%;
+    padding:10px 12px;
+    border-radius:8px;
+    border:1px solid var(--blue-line);
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+  }
+  .text-input{
+    width:100%;
+    padding:13px 14px;
+    border-radius:9px;
+    border:1px solid var(--blue-line);
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:15px;
+  }
+  .grid-wrap{ display:flex; flex-direction:column; gap:20px; }
+  .grid-row-label{ font-size:14.5px; color:var(--blue-deep); margin-bottom:8px; font-weight:600; }
+  .grid-row-sub{ font-size:12.5px; color:var(--muted); margin-bottom:10px; font-weight:400; }
+  .grid-scale{ display:flex; gap:8px; }
+  .grid-col{ flex:1; }
+  .scale-btn{
+    width:100%;
+    padding:10px 4px;
+    border-radius:7px;
+    border:1px solid var(--blue-line);
+    background:var(--white);
+    color:var(--ink);
+    cursor:pointer;
+    font-size:13px;
+    text-align:center;
+  }
+  .scale-btn.selected{ border-color:var(--blue); background:var(--blue-soft); color:var(--blue-deep); font-weight:600; }
+  .scale-legend{ display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-top:4px; }
+  .grid-col-header{ font-size:13px; color:var(--blue-mid); text-align:center; margin-bottom:6px; font-weight:600; }
+  .grid-cols-wrap{ display:flex; flex-direction:column; gap:26px; overflow-x:auto; }
+
+  /* --- Attribute-paginated provider grid (Q5a) --- */
+  .attr-progress{ font-size:12px; color:var(--muted); margin-bottom:4px; letter-spacing:0.04em; }
+  .provider-table{ display:flex; gap:14px; overflow-x:auto; padding-bottom:4px; }
+  .provider-col{
+    flex:1 1 0;
+    min-width:108px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    background:var(--paper);
+    border:1px solid var(--blue-line);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .provider-name{
+    font-size:13px;
+    font-weight:600;
+    color:var(--blue-deep);
+    text-align:center;
+    line-height:1.3;
+    min-height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .provider-scale{ display:flex; flex-direction:column; gap:6px; }
+  .provider-scale-btn{
+    width:100%;
+    padding:9px 4px;
+    border-radius:6px;
+    border:1px solid var(--blue-line);
+    background:var(--white);
+    color:var(--ink);
+    cursor:pointer;
+    font-size:13px;
+    text-align:center;
+  }
+  .provider-scale-btn.selected{ border-color:var(--blue); background:var(--blue-soft); color:var(--blue-deep); font-weight:600; }
+  .provider-scale-legend{ display:flex; justify-content:space-between; font-size:10.5px; color:var(--muted); margin-top:2px; }
+  .numscale{ display:flex; flex-wrap:wrap; gap:6px; margin:8px 0 4px; }
+  .numscale-btn{
+    flex:1 1 auto;
+    min-width:38px;
+    padding:12px 4px;
+    border-radius:8px;
+    border:1px solid var(--blue-line);
+    background:var(--white);
+    color:var(--ink);
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+    text-align:center;
+  }
+  .numscale-btn.selected{ border-color:var(--blue); background:var(--blue-soft); color:var(--blue-deep); }
+  .numscale-legend{ display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-bottom:14px; }
+  .nav-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:28px;
+  }
+  .btn{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    padding:12px 26px;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .btn-primary{
+    background:linear-gradient(120deg,var(--blue-mid),var(--blue-deep));
+    color:var(--white);
+  }
+  .btn-primary:hover{ filter:brightness(1.08); }
+  .btn-primary:disabled{ opacity:0.35; cursor:not-allowed; filter:none; }
+  .btn-ghost{
+    background:transparent;
+    color:var(--muted);
+    border:1px solid var(--blue-line);
+  }
+  .btn-ghost:hover{ color:var(--blue-deep); border-color:var(--blue-mid); }
+  .error-msg{ color:var(--danger); font-size:13px; margin-top:10px; }
+  .end-screen{ text-align:center; padding:20px 0; }
+  .end-screen h2{ font-family:'Crimson Text',serif; font-size:26px; margin-bottom:12px; color:var(--blue-deep); }
+  .end-screen p{ font-size:15px; color:var(--ink); line-height:1.6; }
+  @media (max-width:520px){
+    .card{ padding:26px 20px; }
+    .qtext{ font-size:20px; }
+    .grid-scale{ gap:4px; }
+    .scale-btn{ font-size:11px; padding:8px 2px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="brandbar" id="brandbar">
+    <div class="brand">Thinker Media Group</div>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="card" id="card"></div>
+</div>
+
+
+<script>
+/* ===================================================================
+   CONFIDENCE GAP: CHINESE MINING OEMs VS WESTERN INCUMBENTS
+   Data model – Step 1 of build
+   =================================================================== */
+
+/* ---------- URL params: stream, respondent ref, company ---------- */
+const params = new URLSearchParams(window.location.search);
+let STREAM = '';               // no longer read from the URL — set by Q1's self-report screener
+const REF = params.get('ref') || '';
+const CO = params.get('co') || '';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhI9z7qWdV-5K0dTPPmzAgjNyb8BhTgG5iC07NX6xrNNgQCJTduQycVDNjkClhlGeJ/exec';
+
+/* ---------- Brand sets (from brief, Section: Brand set for the head-to-head component) ---------- */
+const BRAND_CATEGORIES_A = {
+  surface: {
+    label: 'Surface haulage and loading',
+    western: [
+      {v:'cat', t:'Caterpillar'}, {v:'komatsu', t:'Komatsu'},
+      {v:'liebherr', t:'Liebherr'}, {v:'hitachi', t:'Hitachi'}
+    ],
+    chinese: [
+      {v:'sany', t:'SANY'}, {v:'xcmg', t:'XCMG'}, {v:'nhl', t:'NHL (North Hauler)'},
+      {v:'liugong', t:'LiuGong'}, {v:'zoomlion', t:'Zoomlion'}, {v:'tonly', t:'Tonly'},
+      {v:'lgmg', t:'LGMG'}, {v:'tyhi', t:'TYHI (rope shovels)'}
+    ],
+    // Q2 codes that route to this brand category
+    q2Codes: ['a','b','c']
+  },
+  underground: {
+    label: 'Underground load-haul and drilling',
+    western: [{v:'sandvik', t:'Sandvik'}, {v:'epiroc', t:'Epiroc'}],
+    chinese: [
+      {v:'fambition', t:'Fambition'}, {v:'siton', t:'Siton'},
+      {v:'huatai', t:'Huatai'}, {v:'kaishan', t:'Kaishan'}
+    ],
+    q2Codes: ['d','e']
+  },
+  coal: {
+    label: 'Coal longwall and roof supports',
+    coalOnly: true, // shown only to respondents who selected Coal in Q1 commodity list
+    western: [{v:'joy', t:'Komatsu (Joy)'}, {v:'hbt', t:'HBT'}, {v:'eickhoff', t:'Eickhoff'}],
+    chinese: [{v:'zmj', t:'ZMJ'}, {v:'bmj', t:'BMJ'}, {v:'ccteg', t:'CCTEG'}],
+    q2Codes: ['f']
+  },
+  autonomy: {
+    label: 'Autonomy, tele-remote and connectivity',
+    western: [
+      {v:'catmine', t:'Cat MineStar Command'}, {v:'frontrunner', t:'Komatsu FrontRunner'},
+      {v:'automine', t:'Sandvik AutoMine'}, {v:'linkoa', t:'Epiroc LinkOA'}
+    ],
+    chinese: [
+      {v:'eacon', t:'EACON'}, {v:'cidi', t:'CiDi'}, {v:'tage', t:'TAGE'},
+      {v:'waytous', t:'WAYTOUS'}, {v:'huawei', t:'Huawei'}, {v:'builderx', t:'BuilderX (tele-remote excavation)'}
+    ],
+    q2Codes: ['h','i','j','k']
+  }
+};
+// Confirmed totals: 13 Western, 21 Chinese across the four Stream A categories.
+
+const BRAND_CATEGORIES_B = {
+  crushing: {
+    label: 'Crushing and grinding',
+    western: [{v:'metso', t:'Metso'}, {v:'flsmidth', t:'FLSmidth'}, {v:'weir', t:'Weir'}],
+    chinese: [{v:'citichic', t:'CITIC HIC'}, {v:'nhi', t:'NHI'}, {v:'zenith', t:'ZENITH'}],
+    q2Codes: ['a','b']
+  }
+  // Stream B total: 3 Western, 3 Chinese. Every other unit operation captured at
+  // category level only (Q2/Q17), no brand grid.
+};
+
+function brandCategoriesForStream(){ return STREAM==='A' ? BRAND_CATEGORIES_A : BRAND_CATEGORIES_B; }
+
+// Given the respondent's Q2 selections + primary category + commodity list (for coal gate),
+// return the list of brand-category keys that apply to them.
+function applicableBrandCategories(answers){
+  const cats = brandCategoriesForStream();
+  const q2Selected = answers['Q2'] || [];
+  const commodities = answers['Q1_commodities'] || [];
+  return Object.keys(cats).filter(key=>{
+    const c = cats[key];
+    if (c.coalOnly && !commodities.includes('coal')) return false;
+    return c.q2Codes.some(code => q2Selected.includes(code));
+  });
+}
+
+// Flat brand list (with which category + origin each brand belongs to) for the
+// categories that apply to this respondent.
+function brandsForRespondent(answers){
+  const cats = brandCategoriesForStream();
+  const keys = applicableBrandCategories(answers);
+  const primary = answers['Q2_primary']; // single q2 code
+  const out = [];
+  keys.forEach(key=>{
+    const c = cats[key];
+    const isPrimary = c.q2Codes.includes(primary);
+    [...c.western.map(b=>({...b, origin:'western'})), ...c.chinese.map(b=>({...b, origin:'chinese'}))]
+      .forEach(b=> out.push({...b, category:key, isPrimary}));
+  });
+  return out;
+}
+
+/* ---------- Attribute list (Q10 / Q21), 13 rows, 2 stream-worded ---------- */
+const ATTRIBUTES_13 = [
+  {v:'price', t:'Purchase price competitiveness'},
+  {v:'tco', t:'Total cost of ownership over the asset life'},
+  {v:'reliability', t:'Product reliability and uptime'},
+  {v:'buildquality', t:'Build quality and unit-to-unit consistency'},
+  {v:'techinnov', t:'__STREAM_WORDED__'}, // Stream A: electrification/autonomy/digital; Stream B: energy efficiency/automation/digital
+  {v:'software', t:'__STREAM_WORDED__'},  // Stream A: fleet mgmt/operating software; Stream B: plant control/process automation software
+  {v:'dealer', t:'Dealer and service network in your regions'},
+  {v:'aftermarket', t:'Aftermarket and post-sales support (warranty, technical support, training)'},
+  {v:'parts', t:'Parts availability and lead times'},
+  {v:'safety', t:'Safety credentials'},
+  {v:'cyber', t:'Cyber security and data governance'},
+  {v:'esg', t:'ESG, ethics and governance transparency'},
+  {v:'financial', t:'Financial stability and long-term commitment to mining'}
+];
+// Short-form subset shown for Stream A brands OUTSIDE the respondent's primary category
+const ATTRIBUTES_SHORTFORM = ['price','reliability','buildquality','aftermarket','cyber'];
+
+function attributeText(attrKey, stream){
+  if (attrKey==='techinnov') return stream==='A'
+    ? 'Technology and innovation (electrification, autonomy, digital)'
+    : 'Technology and innovation (energy efficiency, automation, digital)';
+  if (attrKey==='software') return stream==='A'
+    ? 'Fleet management and operating software'
+    : 'Plant control and process automation software';
+  const a = ATTRIBUTES_13.find(x=>x.v===attrKey);
+  return a ? a.t : attrKey;
+}
+
+/* ---------- Risk items (Q15), 9 fixed rows, pooled across streams ---------- */
+const RISK_ITEMS_9 = [
+  {v:'geopolitical', t:'Geopolitical and export-control risk (tariffs, sanctions, supply continuity)'},
+  {v:'otcyber', t:'Operational technology and cyber risk in connected or automated systems (data sovereignty, remote access, telemetry)'},
+  {v:'reputational', t:'Reputational and ESG risk (labour practices, governance, board or investor optics)'},
+  {v:'aftermarketrisk', t:'Aftermarket risk (parts, service, warranty enforcement across borders)'},
+  {v:'buildqualityrisk', t:'Build quality and unit-to-unit consistency risk'},
+  {v:'residualvalue', t:'Residual value and resale risk'},
+  {v:'regulatory', t:'Regulatory and certification risk in your jurisdictions'},
+  {v:'contractual', t:'Contractual enforceability and dispute resolution'},
+  {v:'conditions', t:'Technology developed for Chinese operating and regulatory conditions rather than yours'}
+];
+
+/* ---------- Selection criteria (Q12), 15 fixed items; Q13 rates all 15 (confirmed) ---------- */
+const CRITERIA_15 = [
+  {v:'price', t:'Purchase price'},
+  {v:'tco', t:'Total cost of ownership and lifecycle cost'},
+  {v:'leadtime', t:'Delivery lead time'},
+  {v:'dealer', t:'Service and dealer network'},
+  {v:'aftermarket', t:'Aftermarket and post-sales support'},
+  {v:'parts', t:'Parts availability'},
+  {v:'performance', t:'Technical performance and reliability'},
+  {v:'buildquality', t:'Build quality and unit-to-unit consistency'},
+  {v:'software', t:'Software and data integration'},
+  {v:'safety', t:'Safety record'},
+  {v:'financialstrength', t:'Supplier financial strength'},
+  {v:'cyber', t:'Cyber and data security'},
+  {v:'esg', t:'ESG and governance'},
+  {v:'relationship', t:'Existing relationship and fleet or plant commonality'},
+  {v:'financing', t:'Financing and payment terms'}
+];
+
+/* ---------- Q19 trust-building levers, 16 items, 2 stream-worded, 1 stream-only ---------- */
+const LEVERS_19 = [
+  {v:'localassembly', t:'Local or regional assembly and manufacturing'},
+  {v:'servicehubs', t:'Regional service hubs and parts inventory in your operating regions'},
+  {v:'aftermarketcontracts', t:'Aftermarket and post-sales support contracts with guaranteed response times'},
+  {v:'certification', t:'Independent third-party safety and cyber certification'},
+  {v:'jv', t:'Joint venture or distribution partnership with an established Western OEM or dealer'},
+  {v:'ownedddealer', t:'Manufacturer-owned local dealer rather than trading company or agent'},
+  {v:'refsites', t:'Reference sites in a comparable Tier-1 jurisdiction'},
+  {v:'factoryvisits', t:'Factory visits and open access to production and quality processes'},
+  {v:'warranty', t:'Extended warranty and contractual uptime or availability guarantees'},
+  {v:'westernbrandedcomponents', t:'__STREAM_WORDED__'}, // A: engines/transmissions/hydraulics; B: motors/drives/bearings/wear parts
+  {v:'epc', t:'Ability to deliver a full EPC or turnkey package', streamBOnly:true},
+  {v:'transparentownership', t:'Transparent ownership structure and a Western-listed entity'},
+  {v:'financing', t:'Vendor financing or leasing packages'},
+  {v:'partsguarantee', t:'Long-term parts price guarantees'},
+  {v:'localhiring', t:'Local hiring and skills transfer commitments'},
+  {v:'none', t:'None of these would make a difference', exclusive:true}
+];
+function leversForStream(stream){
+  return LEVERS_19
+    .filter(l => !l.streamBOnly || stream==='B')
+    .map(l => l.v==='westernbrandedcomponents'
+      ? {...l, t: stream==='A'
+          ? 'Use of Western-branded major components (engines, transmissions, hydraulics)'
+          : 'Use of Western-branded major components (motors, drives, bearings, wear parts)'}
+      : l);
+}
+
+/* ---------- Q4 part 2 decisive factors, 12 items ---------- */
+const TENDER_FACTORS_12 = [
+  {v:'price', t:'Purchase price'}, {v:'leadtime', t:'Delivery lead time'},
+  {v:'performance', t:'Technical performance or specification'},
+  {v:'buildquality', t:'Build quality or consistency concerns'},
+  {v:'dealer', t:'Service and dealer network'},
+  {v:'aftermarket', t:'Aftermarket and post-sales support commitments'},
+  {v:'parts', t:'Parts availability'}, {v:'riskpolicy', t:'Company risk policy or board position'},
+  {v:'cyber', t:'Cyber or data security assessment'}, {v:'esg', t:'ESG or reputational considerations'},
+  {v:'financing', t:'Financing or commercial terms'}, {v:'relationship', t:'Existing supplier relationship'}
+];
+
+/* ---------- Q18 prerequisites, 7 items ---------- */
+const PREREQS_7 = [
+  {v:'datahosted', t:'Data hosted in-country or in a jurisdiction of your choosing'},
+  {v:'noremoteaccess', t:'No remote vendor access without operator control'},
+  {v:'certification', t:'Independent third-party cyber certification'},
+  {v:'escrow', t:'Source-code escrow or auditability'},
+  {v:'airgapped', t:'Air-gapped deployment option'},
+  {v:'westernprime', t:'Western integrator as prime contractor'},
+  {v:'none', t:'None – would not consider regardless', exclusive:true}
+];
+
+/* ---------- Q22 / Q23 stream-worded option lists ---------- */
+const Q22_OPTIONS_BASE = [
+  {v:'partspricing', t:'Increased parts pricing'}, {v:'leadtimes', t:'Longer delivery lead times'},
+  {v:'serviceresponse', t:'Poorer service responsiveness'}, {v:'weakaftermarket', t:'Weaker aftermarket or post-sales support'},
+  {v:'weakdealer', t:'Weaker dealer performance or higher dealer margins'},
+  {v:'slowtech', t:'__STREAM_WORDED__'},
+  {v:'lockin', t:'Software lock-in or closed data'}, {v:'commercialterms', t:'Lack of flexibility on commercial terms'},
+  {v:'accountmgmt', t:'Reduced engagement from senior account management'},
+  {v:'nothing', t:'Nothing – no change in openness to alternatives', exclusive:true}
+];
+function q22Options(stream){
+  return Q22_OPTIONS_BASE.map(o => o.v==='slowtech'
+    ? {...o, t: stream==='A' ? 'Slow pace of electrification' : 'Slow pace of technology improvement (energy efficiency, automation)'}
+    : o);
+}
+
+const Q23_OPTIONS_BASE = [
+  {v:'lowerprice', t:'Lower purchase price'}, {v:'lowerpartsservice', t:'Lower parts and service pricing'},
+  {v:'guaranteedavail', t:'Guaranteed availability or performance contracts'}, {v:'fasterdelivery', t:'Faster delivery'},
+  {v:'opensoftware', t:'__STREAM_WORDED__'}, {v:'fasterroadmap', t:'__STREAM_WORDED__'},
+  {v:'financing', t:'Better financing'}, {v:'dealerperf', t:'Stronger local dealer performance'},
+  {v:'standardisation', t:'__STREAM_WORDED__'}, {v:'nothing', t:'Nothing – the price gap is decisive', exclusive:true}
+];
+function q23Options(stream){
+  return Q23_OPTIONS_BASE.map(o=>{
+    if (o.v==='opensoftware') return {...o, t: stream==='A' ? 'Open, interoperable fleet management software' : 'Open, interoperable plant control and data systems'};
+    if (o.v==='fasterroadmap') return {...o, t: stream==='A' ? 'Faster electrification and autonomy roadmap' : 'Faster technology roadmap (energy efficiency, automation, digital)'};
+    if (o.v==='standardisation') return {...o, t: stream==='A' ? 'Fleet commonality and training' : 'Plant standardisation and operator training'};
+    return o;
+  });
+}
+
+/* ---------- Q27 information sources, 10 items ---------- */
+const INFO_SOURCES_10 = [
+  {v:'sitevisits', t:'Site visits to reference operations'}, {v:'factoryvisits', t:'Factory visits to the supplier'},
+  {v:'peers', t:'Peer operators and industry contacts'}, {v:'epcm', t:'EPCM or consultant recommendation'},
+  {v:'trademedia', t:'Trade media and analyst reports'}, {v:'oemmaterials', t:"The OEM's own materials"},
+  {v:'conferences', t:'Conferences and exhibitions'}, {v:'certbodies', t:'Independent certification bodies'},
+  {v:'duediligence', t:'Your own procurement due diligence'}, {v:'dealer', t:'Dealer or distributor'}
+];
+
+/* ===================================================================
+   QUESTIONS ARRAY
+   =================================================================== */
+const QUESTIONS = [
+  { id:'intro', type:'intro', title:'The Confidence Gap: Chinese Mining OEMs vs Western Incumbents',
+    body:[
+      "You're being invited to take part in an independent industry study on how senior mining buyers like you view Chinese equipment and technology suppliers relative to established Western brands."
+    ],
+    note: "Fully closed-ended, single or multiple choice throughout, about 12-15 minutes. Answers are never shared outside Thinker Media Group and are reported only in aggregate."
+  },
+
+  /* ---------------- SECTION A: Screener and profile (Q1-Q2) ---------------- */
+  { id:'Q1_stream', section:'Section A', sectionDesc:'Screener and profile', type:'single',
+    text:'Q1. What is your role in purchasing mining equipment and technology?', sub:'(Select one)',
+    options:[
+      {v:'A', t:'Mobile mining equipment and the technology that runs on it (trucks, excavators, loaders, underground equipment, autonomy, connectivity)'},
+      {v:'B', t:'Processing plant equipment and the technology that runs it (crushers, mills, fixed plant, plant control systems)'},
+      {v:'both', t:'Both equally'}
+    ],
+    // Self-routing: A or B sets the stream immediately. 'both' is resolved by the
+    // tie-break question immediately following, never left unresolved.
+    onAnswer:(val)=>{ if (val==='A' || val==='B') STREAM = val; }
+  },
+  { id:'Q1_stream_tiebreak', section:'Section A', sectionDesc:'Screener and profile', type:'single',
+    text:'Q1 (cont.). To route you to the right set of questions: which do you deal with more?', sub:'(Select one)',
+    options:[
+      {v:'A', t:'Mobile mining equipment (trucks, excavators, loaders, underground equipment, autonomy, connectivity)'},
+      {v:'B', t:'Processing plant equipment (crushers, mills, fixed plant, plant control systems)'}
+    ],
+    skipIf:(a)=> a.Q1_stream!=='both',
+    onAnswer:(val)=>{ STREAM = val; }
+  },
+  { id:'Q1_role', section:'Section A', sectionDesc:'Screener and profile', type:'single',
+    text:'Q1 (cont.). Role in purchasing', sub:'(Select one)',
+    options:[
+      {v:'decisionmaker', t:'Final decision-maker'}, {v:'recommender', t:'Recommender or specifier'},
+      {v:'evaluator', t:'Evaluator or technical assessor'}, {v:'influencer', t:'Influencer'}
+    ]},
+  { id:'Q1_function', section:'Section A', sectionDesc:'Screener and profile', type:'single',
+    text:'Q1 (cont.). Function', sub:'(Select one)',
+    branchOptions:{
+      A:[
+        {v:'procurement', t:'Procurement and supply chain'}, {v:'mineeng', t:'Mine engineering and technical'},
+        {v:'assetmgmt', t:'Asset management and maintenance'}, {v:'mineops', t:'Mine operations'}, {v:'exec', t:'Executive'}
+      ],
+      B:[
+        {v:'procurement', t:'Procurement and supply chain'}, {v:'metallurgy', t:'Metallurgy and process engineering'},
+        {v:'plantmaint', t:'Plant maintenance and reliability'}, {v:'plantops', t:'Plant operations'},
+        {v:'projects', t:'Projects and capital delivery'}, {v:'exec', t:'Executive'}
+      ]
+    }},
+  { id:'Q1_commodities', section:'Section A', sectionDesc:'Screener and profile', type:'multi',
+    text:'Q1 (cont.). Commodities covered by your own purchasing remit', sub:'(Select all that apply)',
+    options:[
+      {v:'copper', t:'Copper'}, {v:'gold', t:'Gold'}, {v:'ironore', t:'Iron ore'}, {v:'coal', t:'Coal'},
+      {v:'battery', t:'Battery minerals (lithium, nickel, cobalt, graphite)'},
+      {v:'other', t:'Other', hasOther:true}
+    ]},
+  { id:'Q1_hq', section:'Section A', sectionDesc:'Screener and profile', type:'single',
+    text:'Q1 (cont.). Headquarters', sub:'(Select one)',
+    options:[
+      {v:'australia', t:'Australia'}, {v:'ntham', t:'North America'}, {v:'europe', t:'Europe'},
+      {v:'africa', t:'Africa'}, {v:'latam', t:'Latin America'}, {v:'sea', t:'South-East Asia'}, {v:'cis', t:'Central Asia / CIS'}
+    ]},
+  { id:'Q1_regions', section:'Section A', sectionDesc:'Screener and profile', type:'multi',
+    text:'Q1 (cont.). Main operating regions', sub:'(Select all that apply)',
+    options:[
+      {v:'australia', t:'Australia'}, {v:'ntham', t:'North America'}, {v:'europe', t:'Europe'},
+      {v:'africa', t:'Africa'}, {v:'latam', t:'Latin America'}, {v:'sea', t:'South-East Asia'},
+      {v:'cis', t:'Central Asia / CIS'}, {v:'china', t:'China'}
+    ]},
+  { id:'Q1_spend', section:'Section A', sectionDesc:'Screener and profile', type:'single',
+    text:'Q1 (cont.). Annual capital equipment spend', sub:'(Select one)',
+    options:[
+      {v:'u50', t:'Under US$50m'}, {v:'50-250', t:'US$50-250m'}, {v:'250-1000', t:'US$250m-1bn'},
+      {v:'o1000', t:'Over US$1bn'}, {v:'dk', t:"Don't know"}
+    ]},
+
+  { id:'Q2', section:'Section A', sectionDesc:'Screener and profile', type:'multi',
+    text:'Q2. In the last three years, which categories of equipment or technology has your organisation purchased or tendered for?', sub:'(Select all that apply)',
+    branchOptions:{
+      A:[
+        {v:'a', t:'Surface haul trucks'}, {v:'b', t:'Excavators and rope shovels'}, {v:'c', t:'Wheel loaders and dozers'},
+        {v:'d', t:'Underground load-haul (LHDs, underground trucks)'}, {v:'e', t:'Underground drilling rigs'},
+        {v:'f', t:'Coal longwall and roof supports'}, {v:'g', t:'Electrified or battery-electric fleet'},
+        {v:'h', t:'Autonomous haulage systems'}, {v:'i', t:'Tele-remote operation systems'},
+        {v:'j', t:'Fleet management and mine operating software'}, {v:'k', t:'Connectivity (5G, private LTE)'},
+        {v:'l', t:'Other', hasOther:true}
+      ],
+      B:[
+        {v:'a', t:'Crushers'}, {v:'b', t:'Grinding mills (SAG, ball, HPGR)'}, {v:'c', t:'Screening and classification'},
+        {v:'d', t:'Materials handling (conveyors, stackers, reclaimers)'}, {v:'e', t:'Thickening, filtration and dewatering'},
+        {v:'f', t:'Flotation'}, {v:'g', t:'Pumps and slurry handling'},
+        {v:'h', t:'Plant control systems and process automation'}, {v:'i', t:'Full plant EPC or turnkey packages'},
+        {v:'j', t:'Other', hasOther:true}
+      ]
+    }},
+  { id:'Q2_primary', section:'Section A', sectionDesc:'Screener and profile', type:'single',
+    text:'Q2 (cont.). Which ONE category are you most closely involved with?', sub:'(Select one – sets your primary category)',
+    pipeFrom:'Q2' },
+
+  /* ---------------- SECTION B: Current exposure (Q3-Q7) ---------------- */
+  { id:'Q3', section:'Section B', sectionDesc:'Current exposure to Chinese suppliers', type:'single',
+    text:'Q3. Thinking about Chinese-headquartered equipment or technology suppliers, which statement best describes your organisation today?', sub:'(Select one) – quota variable',
+    options:[
+      {v:'user', t:'Chinese equipment in active operation on a significant scale', quotaCheck:'user'},
+      {v:'trial', t:'Chinese equipment in operation on a trial or limited scale', quotaCheck:'user'},
+      {v:'evaluated', t:'Evaluated or shortlisted a Chinese supplier, but not purchased'},
+      {v:'never', t:'Have never seriously evaluated a Chinese supplier'},
+      {v:'excluded', t:'Chinese suppliers excluded by policy'}
+    ]},
+  { id:'Q4a', section:'Section B', sectionDesc:'Current exposure to Chinese suppliers', type:'single',
+    text:'Q4. In the last three years, has a Chinese supplier reached the final shortlist in a major equipment or technology tender at your organisation, and what was the outcome?', sub:'(Select one)',
+    options:[
+      {v:'none', t:'No Chinese supplier has reached a final shortlist'},
+      {v:'won', t:'Yes – and the Chinese supplier won'},
+      {v:'lost', t:'Yes – and the Chinese supplier lost'},
+      {v:'withdrew', t:'Yes – and the Chinese supplier withdrew'}
+    ]},
+  { id:'Q4b', section:'Section B', sectionDesc:'Current exposure to Chinese suppliers', type:'multi',
+    text:'Q4 (cont.). Which factors decided it?', sub:'(Select all that apply)',
+    options: TENDER_FACTORS_12,
+    skipIf: (a)=> !['won','lost'].includes(a.Q4a) },
+  { id:'Q4c', section:'Section B', sectionDesc:'Current exposure to Chinese suppliers', type:'single',
+    text:'Q4 (cont.). Which was the SINGLE most decisive factor?', sub:'(Select one)',
+    pipeFrom:'Q4b',
+    skipIf: (a)=> !['won','lost'].includes(a.Q4a) },
+
+  { id:'Q5', section:'Section B', sectionDesc:'Current exposure to Chinese suppliers', type:'multi',
+    text:'Q5. If your organisation has purchased Chinese equipment, through which route or routes did you buy?', sub:'(Select all that apply)',
+    options:[
+      {v:'direct', t:'Directly from the manufacturer in China'}, {v:'trading', t:'Via a trading company or export agent'},
+      {v:'ownedddealer', t:'Via a local dealer owned by the manufacturer'}, {v:'independentdealer', t:'Via an independent local dealer or distributor'},
+      {v:'westernpartner', t:'Via a Western OEM, integrator or joint-venture partner'},
+      {v:'epcm', t:'Via an EPCM or contractor who specified and procured it'}, {v:'dk', t:"Don't know"}
+    ],
+    skipIf: (a)=> !['user','trial'].includes(a.Q3) },
+  { id:'Q5_single', section:'Section B', sectionDesc:'Current exposure to Chinese suppliers', type:'single',
+    text:'Q5 (cont.). Which SINGLE route was used for the largest purchase?', sub:'(Select one)',
+    pipeFrom:'Q5',
+    skipIf: (a)=> !['user','trial'].includes(a.Q3) },
+
+  { id:'Q6a', section:'Section B', sectionDesc:'Current exposure to Chinese suppliers', type:'single',
+    text:"Q6. Has anyone from your organisation visited a Chinese equipment supplier's factory directly?", sub:'(Select one)',
+    options:[
+      {v:'recent', t:'Yes – within the last three years'}, {v:'past', t:'Yes – more than three years ago'},
+      {v:'no', t:'No'}, {v:'dk', t:"Don't know"}
+    ]},
+  { id:'Q6b', section:'Section B', sectionDesc:'Current exposure to Chinese suppliers', type:'single',
+    text:'Q6 (cont.). Which best describes why not?', sub:'(Select one)',
+    options:[
+      {v:'wouldgo', t:'We would go if invited – no suitable opportunity has arisen'},
+      {v:'wanttobut', t:'We would like to but travel, time or budget has prevented it'},
+      {v:'notrelevant', t:'It is not relevant to how we make this decision'},
+      {v:'wouldnotchange', t:'A factory visit would not change our view of Chinese suppliers'},
+      {v:'policy', t:'Company policy or travel restrictions prevent it'}
+    ],
+    skipIf: (a)=> a.Q6a!=='no' },
+  { id:'Q7', section:'Section B', sectionDesc:'Current exposure to Chinese suppliers', type:'single',
+    text:"Q7. Over the next five years, how do you expect the share of your organisation's capital equipment spend going to Chinese suppliers to change?", sub:'(Select one)',
+    options:[
+      {v:'incsig', t:'Increase significantly'}, {v:'incslight', t:'Increase slightly'}, {v:'same', t:'Stay the same'},
+      {v:'dec', t:'Decrease'}, {v:'zero', t:'Effectively zero by policy'}
+    ]},
+
+  /* ---------------- SECTION C: Brand analysis Q8-Q11 (the spine) ---------------- */
+  // Rendered by a dedicated 'brandscale' engine, not generic single/multi – see render step.
+  { id:'Q8', section:'Section C', sectionDesc:'Brand analysis: head-to-head', type:'brandscale',
+    text:'Q8. Below is a list of mining equipment and technology brands. For each one, how well do you know them?', sub:'(One answer per brand, shown by category)',
+    scale:[
+      {v:1, t:'Never heard of them'}, {v:2, t:'Know the name only'},
+      {v:3, t:'Know them reasonably well'}, {v:4, t:'Know them very well, having evaluated or used them'}
+    ],
+    brandsSource:'all' // all applicable brands for this respondent
+  },
+  { id:'Q9', section:'Section C', sectionDesc:'Brand analysis: head-to-head', type:'brandscale',
+    text:'Q9. For each brand you know reasonably well or better: if you were running a major tender in that category in the next 12 months, would you include them on the shortlist?', sub:'(One answer per brand)',
+    scale:[
+      {v:1, t:'Definitely include'}, {v:2, t:'Probably include'}, {v:3, t:'Probably exclude'}, {v:4, t:'Definitely exclude'}
+    ],
+    brandsSource:'familiarFromQ8' // filter: Q8 answer >= 3
+  },
+  { id:'Q10', section:'Section C', sectionDesc:'Brand analysis: head-to-head', type:'matrix',
+    text:'Q10. Please rate each brand you know reasonably well on the following attributes.', sub:'(Scale 1 = very poor to 10 = excellent, one attribute per screen)',
+    rowsSource:'attributesPerBrand', // full 13 for primary-category brands, short 5 for others (Stream A); full 13 always (Stream B)
+    brandsSource:'familiarFromQ8AndQ9', // confirmed: both gates must pass (Q8>=3 AND Q9 in {1,2})
+    scaleMin:1, scaleMax:10
+  },
+  { id:'Q11', section:'Section C', sectionDesc:'Brand analysis: head-to-head', type:'brandscale',
+    text:'Q11. How much would you trust each of these brands to deliver and support a mission-critical [fleet/plant] at one of your operations for the next 10 years?', sub:'(0 = no trust at all, 10 = complete trust)',
+    numeric: true,
+    scale: Array.from({length:11}, (_,i)=>({v:i, t: i===0 ? '0 - no trust at all' : (i===10 ? '10 - complete trust' : String(i))})),
+    brandsSource:'familiarFromQ8AndQ9'
+  },
+
+  /* ---------------- SECTION D: Selection criteria (Q12-Q14) ---------------- */
+  { id:'Q12', section:'Section D', sectionDesc:'Selection criteria and the Chinese-supplier delta', type:'multi',
+    text:'Q12. Which of the following criteria does your buying team consider when selecting a supplier for a major equipment or technology purchase?', sub:'(Select all that apply)',
+    options: CRITERIA_15 },
+  { id:'Q12_single', section:'Section D', sectionDesc:'Selection criteria and the Chinese-supplier delta', type:'single',
+    text:'Q12 (cont.). Which is the SINGLE most important?', sub:'(Select one)',
+    pipeFrom:'Q12' },
+  { id:'Q13', section:'Section D', sectionDesc:'Selection criteria and the Chinese-supplier delta', type:'matrix1d',
+    text:'Q13. Now imagine a Chinese supplier is on that shortlist alongside your usual Western brands. For each criterion, does its weight in your decision change?', sub:'(One answer per criterion – all 15 shown)',
+    rows: CRITERIA_15, // confirmed: all 15, not just Q12 selections
+    scale:[{v:1,t:'Increases in importance'},{v:2,t:'Stays the same'},{v:3,t:'Decreases in importance'}]
+  },
+  { id:'Q14', section:'Section D', sectionDesc:'Selection criteria and the Chinese-supplier delta', type:'single',
+    text:'Q14. All else being equal – [components] – what price discount, if any, would a Chinese supplier need to offer versus your incumbent Western brand for you to select them?', sub:'(Select one)',
+    branchNote:{A:'same engine, same transmission, comparable specification', B:'same major components (motors, drives, bearings), comparable specification'},
+    options:[
+      {v:'none', t:'No discount needed'}, {v:'u10', t:'Up to 10%'}, {v:'10-20', t:'10-20%'}, {v:'20-30', t:'20-30%'},
+      {v:'30-50', t:'30-50%'}, {v:'o50', t:'More than 50%'}, {v:'never', t:'Would not select at any price'}
+    ]},
+
+  /* ---------------- SECTION E: Risk perception (Q15-Q18) ---------------- */
+  { id:'Q15', section:'Section E', sectionDesc:'Risk perception', type:'matrix1d',
+    text:'Q15. How concerned is your organisation about each of the following when considering a Chinese supplier?', sub:'(One answer per item – all 9 shown)',
+    rows: RISK_ITEMS_9,
+    scale:[{v:1,t:'Not a concern'},{v:2,t:'Minor concern'},{v:3,t:'Moderate concern'},{v:4,t:'Serious concern'},{v:5,t:'Would block the purchase on its own'}]
+  },
+  { id:'Q16a', section:'Section E', sectionDesc:'Risk perception', type:'single',
+    text:'Q16. Does your organisation, board, or a government in any of your operating jurisdictions currently have a policy restricting Chinese suppliers of equipment or technology?', sub:'(Select one)',
+    options:[
+      {v:'formal', t:'Formal written policy'}, {v:'informal', t:'Informal guidance or an "understood" preference'},
+      {v:'connectedonly', t:'Restrictions on connected or technology products only'}, {v:'none', t:'No restriction'}, {v:'dk', t:"Don't know"}
+    ]},
+  { id:'Q16b', section:'Section E', sectionDesc:'Risk perception', type:'single',
+    text:'Q16 (cont.). How has this changed in the last two years?', sub:'(Select one)',
+    options:[
+      {v:'morerestrictive', t:'Become more restrictive'}, {v:'nochange', t:'No change'},
+      {v:'lessrestrictive', t:'Become less restrictive'}, {v:'dk', t:"Don't know"}
+    ]},
+  { id:'Q17', section:'Section E', sectionDesc:'Risk perception', type:'matrix1d',
+    text:'Q17. In which equipment categories would your organisation realistically accept a Chinese supplier today?', sub:'(One answer per category you selected in Q2)',
+    rowsSource:'pipeFromQ2', // rows = respondent's Q2 selections, per brief
+    scale:[{v:1,t:'Would accept'},{v:2,t:'Would accept with conditions'},{v:3,t:'Off the table'}]
+  },
+  { id:'Q18a', section:'Section E', sectionDesc:'Risk perception', type:'multi',
+    text:'Q18. Specifically for [scope], which of the following would be prerequisites before you would consider a Chinese-origin system?', sub:'(Select all that apply)',
+    branchNote:{A:'connected, autonomous or AI-enabled systems', B:'plant control systems, process automation or remotely supported equipment'},
+    options: PREREQS_7 },
+  { id:'Q18b', section:'Section E', sectionDesc:'Risk perception', type:'single',
+    text:'Q18 (cont.). Which is the SINGLE most important prerequisite?', sub:'(Select one)',
+    pipeFrom:'Q18a', skipIf:(a)=> (a.Q18a||[]).includes('none') },
+  { id:'Q18c', section:'Section E', sectionDesc:'Risk perception', type:'single',
+    text:'Q18 (cont.). Which of these combinations would you accept?', sub:'(Select one)',
+    branchOptions:{
+      A:[
+        {v:'chinautotruck', t:'Chinese autonomy or connectivity layer on Western-branded trucks'},
+        {v:'westautochintruck', t:'Western autonomy layer on Chinese trucks'},
+        {v:'both', t:'Both'}, {v:'neither', t:'Neither'}
+      ],
+      B:[
+        {v:'chinmechwestctrl', t:'Chinese mechanical equipment with a Western control and automation system'},
+        {v:'westmechchinctrl', t:'Western mechanical equipment with a Chinese control and automation system'},
+        {v:'both', t:'Both'}, {v:'neither', t:'Neither'}
+      ]
+    }},
+
+  /* ---------------- SECTION F: Trust-building levers (Q19-Q20) ---------------- */
+  { id:'Q19', section:'Section F', sectionDesc:'Trust-building levers', type:'multi',
+    text:'Q19. Which of the following would increase your confidence in a Chinese supplier?', sub:'(Select all that apply)',
+    optionsFn: ()=> leversForStream(STREAM) },
+  { id:'Q19_single', section:'Section F', sectionDesc:'Trust-building levers', type:'single',
+    text:'Q19 (cont.). Which SINGLE lever would make the greatest difference?', sub:'(Select one)',
+    pipeFrom:'Q19', skipIf:(a)=> (a.Q19||[]).includes('none') },
+  { id:'Q20', section:'Section F', sectionDesc:'Trust-building levers', type:'single',
+    text:'Q20. Realistically, how long will it take for the leading Chinese brand in your primary equipment category to reach parity with [incumbent] on trust within your organisation?', sub:'(Select one)',
+    branchNote:{A:'Caterpillar or Komatsu', B:'Metso or FLSmidth'},
+    options:[
+      {v:'already', t:'Already at parity'}, {v:'w3', t:'Within 3 years'}, {v:'3-5', t:'3-5 years'},
+      {v:'5-10', t:'5-10 years'}, {v:'o10', t:'More than 10 years'}, {v:'never', t:'Never'}
+    ]},
+
+  /* ---------------- SECTION G: Western incumbent (Q21-Q24) ---------------- */
+  { id:'Q21', section:'Section G', sectionDesc:'The Western incumbent: satisfaction and vulnerability', type:'matrix1d',
+    text:'Q21. Thinking of your principal Western equipment supplier in your primary category, how satisfied are you with them on each of the following?', sub:'(Scale 1 = very dissatisfied to 10 = very satisfied, one attribute per screen)',
+    rows: ATTRIBUTES_13.map(a=>({v:a.v, t: a.v==='techinnov'||a.v==='software' ? attributeText(a.v, STREAM) : a.t})),
+    scaleMin:1, scaleMax:10 },
+  { id:'Q22', section:'Section G', sectionDesc:'The Western incumbent: satisfaction and vulnerability', type:'multi',
+    text:'Q22. Which of the following, if any, has your incumbent Western supplier done in the last two years that has made you more open to considering alternatives?', sub:'(Select all that apply)',
+    optionsFn: ()=> q22Options(STREAM) },
+  { id:'Q22_single', section:'Section G', sectionDesc:'The Western incumbent: satisfaction and vulnerability', type:'single',
+    text:'Q22 (cont.). Which had the SINGLE greatest influence?', sub:'(Select one)',
+    pipeFrom:'Q22', skipIf:(a)=> (a.Q22||[]).includes('nothing') },
+  { id:'Q23', section:'Section G', sectionDesc:'The Western incumbent: satisfaction and vulnerability', type:'multi',
+    text:'Q23. Which of the following would persuade you to stay with your Western incumbent rather than switch to a lower-priced Chinese alternative?', sub:'(Select all that apply)',
+    optionsFn: ()=> q23Options(STREAM) },
+  { id:'Q23_single', section:'Section G', sectionDesc:'The Western incumbent: satisfaction and vulnerability', type:'single',
+    text:'Q23 (cont.). Which is the SINGLE most persuasive?', sub:'(Select one)',
+    pipeFrom:'Q23', skipIf:(a)=> (a.Q23||[]).includes('nothing') },
+  { id:'Q24', section:'Section G', sectionDesc:'The Western incumbent: satisfaction and vulnerability', type:'single',
+    text:'Q24. Do you believe Western OEMs are currently responding effectively to Chinese competition?', sub:'(Select one)',
+    options:[
+      {v:'yes', t:'Yes, clearly'}, {v:'partly', t:'Partly'}, {v:'no', t:'No, they are complacent'}, {v:'dk', t:"Don't know"}
+    ]},
+
+  /* ---------------- SECTION H: Autonomy / automation (Q25-Q26, fully stream-specific) ---------------- */
+  { id:'Q25', section:'Section H', sectionDesc:'Autonomy, automation and technology partnerships', type:'single',
+    text: STREAM==='A'
+      ? "Q25. China now hosts the majority of the world's most heavily autonomous mines by number of trucks, and remote-control excavation is widespread there. Does that operating experience make you more or less confident in Chinese suppliers of autonomous, tele-remote and connected systems?"
+      : "Q25. Chinese processing plants are generally less automated than Western concentrators, even though Chinese mines lead the world in autonomous truck numbers. Does the level of automation typical of Chinese plants affect your confidence in Chinese fixed-plant suppliers?",
+    sub:'(Select one)',
+    branchOptions:{
+      A:[
+        {v:'muchmore', t:'Much more confident'}, {v:'somemore', t:'Somewhat more confident'}, {v:'nodiff', t:'No difference'},
+        {v:'someless', t:'Somewhat less confident'}, {v:'muchless', t:'Much less confident'}
+      ],
+      B:[
+        {v:'sigreduce', t:'Significantly reduces confidence'}, {v:'somereduce', t:'Somewhat reduces confidence'},
+        {v:'noeffect', t:'No effect – we would specify the control system separately'},
+        {v:'someincrease', t:'Somewhat increases confidence'}, {v:'sigincrease', t:'Significantly increases confidence'}
+      ]
+    }},
+  { id:'Q26', section:'Section H', sectionDesc:'Autonomy, automation and technology partnerships', type:'single',
+    text: STREAM==='A'
+      ? 'Q26. For your next autonomous haulage or tele-remote operation decision, which supply model would you prefer?'
+      : 'Q26. For your next plant control system or process automation decision, which supply model would you prefer?',
+    sub:'(Select one)',
+    branchOptions:{
+      A:[
+        {v:'oemown', t:"Equipment OEM's own system (eg. Cat MineStar Command, Komatsu FrontRunner)"},
+        {v:'agnostic', t:'OEM-agnostic Western technology provider (eg. Epiroc LinkOA)'},
+        {v:'chinauto', t:'Chinese autonomy provider (eg. EACON, CiDi, TAGE)'},
+        {v:'chinaict', t:'Chinese ICT-led package (eg. Huawei)'},
+        {v:'mixed', t:'Mixed-fleet integration by an EPCM or systems integrator'}, {v:'undecided', t:'Undecided'}
+      ],
+      B:[
+        {v:'oemown', t:'Equipment OEM\'s own control system (eg. Metso, FLSmidth)'},
+        {v:'independentwestern', t:'Independent Western automation vendor (eg. ABB, Siemens, Rockwell, Schneider)'},
+        {v:'chinamechwestctrl', t:"Chinese mechanical equipment with a Western automation vendor's control system"},
+        {v:'chinaict', t:'Chinese ICT-led package (eg. Huawei)'},
+        {v:'epcm', t:'Integration by an EPCM or systems integrator'}, {v:'undecided', t:'Undecided'}
+      ]
+    }},
+
+  /* ---------------- SECTION I: Information sources (Q27) ---------------- */
+  { id:'Q27', section:'Section I', sectionDesc:'Information sources', type:'multi',
+    text:'Q27. When assessing an unfamiliar Chinese supplier, which sources do you rely on?', sub:'(Select all that apply)',
+    options: INFO_SOURCES_10 },
+  { id:'Q27_single', section:'Section I', sectionDesc:'Information sources', type:'single',
+    text:'Q27 (cont.). Which is the SINGLE most relied upon?', sub:'(Select one)',
+    pipeFrom:'Q27' },
+
+  { id:'close', section:'Close', sectionDesc:'', type:'single',
+    text:'Finally: would you be willing to join a follow-up roundtable or sponsored briefing on this topic?', sub:'(Select one)',
+    options:[{v:'yes', t:'Yes'}, {v:'no', t:'No'}] },
+
+  { id:'thankyou', type:'end' }
+];
+
+/* ---------- Brand filtering for Q9 / Q10 / Q11 (gates confirmed) ---------- */
+// Q9 gate: brand rated 'reasonably well'(3) or 'very well'(4) in Q8.
+function brandsFamiliarFromQ8(answers){
+  const all = brandsForRespondent(answers);
+  const q8 = answers['Q8'] || {}; // { brandV: 1-4 }
+  return all.filter(b => (q8[b.v]||0) >= 3);
+}
+// Q10/Q11 gate (confirmed): BOTH Q8>=3 AND Q9 in {'include','probably include'} (v:1 or 2).
+function brandsFamiliarFromQ8AndQ9(answers){
+  const q9pass = brandsFamiliarFromQ8(answers); // already Q8-gated
+  const q9 = answers['Q9'] || {}; // { brandV: 1-4 }
+  return q9pass.filter(b => [1,2].includes(q9[b.v]));
+}
+// Resolve which attribute rows apply to a given brand for Q10 (Stream A short/full split).
+function attributeRowsForBrand(brand, stream){
+  if (stream==='B') return ATTRIBUTES_13; // Stream B: full grid for all brands
+  return brand.isPrimary ? ATTRIBUTES_13 : ATTRIBUTES_13.filter(a=>ATTRIBUTES_SHORTFORM.includes(a.v));
+}
+
+
+/* ===================================================================
+   RENDER ENGINE – Step 2
+   =================================================================== */
+
+/* ---------- state ---------- */
+let answers = {};       // qid -> value (string | string[] | {rowV:score} | {brandV:score})
+let otherText = {};
+let current = 0;
+let subIndex = 0;       // sub-page cursor for paginated grid questions (attribute-by-attribute, or category-by-category)
+let terminated = false;
+
+function escapeHtml(str){
+  if (str===undefined || str===null) return '';
+  return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+    .replaceAll('"','&quot;').replaceAll("'",'&#39;');
+}
+
+/* ---------- stream-aware text/option resolution ---------- */
+function qText(q){
+  let t = q.text;
+  if (q.branchNote){
+    t = t.replace('[components]', q.branchNote[STREAM]||'')
+         .replace('[scope]', q.branchNote[STREAM]||'')
+         .replace('[incumbent]', q.branchNote[STREAM]||'');
+  }
+  t = t.replace('[fleet/plant]', STREAM==='A' ? 'fleet' : 'plant');
+  return t;
+}
+function qOptions(q){
+  if (q.optionsFn) return q.optionsFn();
+  if (q.branchOptions) return q.branchOptions[STREAM] || q.branchOptions.both || [];
+  return q.options || [];
+}
+
+/* ---------- visibility / navigation ---------- */
+function visibleQuestions(){
+  return QUESTIONS.filter(q => !(q.skipIf && q.skipIf(answers)));
+}
+function updateProgress(){
+  const q = QUESTIONS[current];
+  const isBookend = (q.type==='intro' || q.type==='end');
+  document.getElementById('brandbar').style.display = isBookend ? 'flex' : 'none';
+  document.querySelector('.progress-track').style.display = isBookend ? 'none' : 'block';
+  if (isBookend) return;
+  const vis = visibleQuestions();
+  const idx = vis.findIndex(x=>x.id===q.id);
+  const pct = Math.round(((idx+1)/vis.length)*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+}
+
+/* ---------- pipeFrom resolution (reused pattern from reference engine) ---------- */
+function pipedOptions(sourceId){
+  const sel = answers[sourceId] || [];
+  const srcQ = QUESTIONS.find(q=>q.id===sourceId);
+  const opts = qOptions(srcQ);
+  return sel.map(v=>{
+    const o = opts.find(o=>o.v===v);
+    if (o && o.hasOther && otherText[sourceId]) return {v:o.v, t:otherText[sourceId]};
+    return o;
+  }).filter(Boolean);
+}
+
+/* ---------- brand/row resolution per question ---------- */
+function brandsFor(q){
+  if (q.brandsSource==='all') return brandsForRespondent(answers);
+  if (q.brandsSource==='familiarFromQ8') return brandsFamiliarFromQ8(answers);
+  if (q.brandsSource==='familiarFromQ8AndQ9') return brandsFamiliarFromQ8AndQ9(answers);
+  return [];
+}
+function rowsFor(q){
+  if (q.rowsSource==='pipeFromQ2') return pipedOptions('Q2');
+  if (q.rows) return q.rows;
+  return [];
+}
+
+/* ===================================================================
+   RENDER
+   =================================================================== */
+const card = document.getElementById('card');
+
+function render(){
+  const q = QUESTIONS[current];
+  updateProgress();
+
+  if (q.type==='intro'){
+    card.innerHTML = `
+      <div class="section-eyebrow">Survey introduction</div>
+      <h1 class="qtext" style="font-size:27px;">${escapeHtml(q.title)}</h1>
+      ${q.body.map(p=>`<div class="intro-body">${escapeHtml(p)}</div>`).join('')}
+      ${q.note ? `<div class="intro-note">${escapeHtml(q.note)}</div>` : ''}
+      <div class="nav-row" style="justify-content:flex-end;">
+        <button class="btn btn-primary" onclick="goNext()">Begin survey</button>
+      </div>`;
+    return;
+  }
+  if (q.type==='end'){
+    card.innerHTML = `
+      <div class="end-screen">
+        <h2>Thank you for your time</h2>
+        <p>Your responses have been recorded and will feed directly into our upcoming Confidence Gap report. We appreciate you sharing your perspective.</p>
+      </div>`;
+    return;
+  }
+
+  let html = `<div class="section-eyebrow">${escapeHtml(q.section)}${q.sectionDesc?' – '+escapeHtml(q.sectionDesc):''}</div>`;
+  html += `<div class="qtext">${escapeHtml(qText(q))}</div>`;
+  html += `<div class="qsub">${escapeHtml(q.sub||'')}</div>`;
+
+  if (q.type==='single' || q.type==='multi'){
+    let opts = q.pipeFrom ? pipedOptions(q.pipeFrom) : qOptions(q);
+    const selected = answers[q.id] || (q.type==='multi'? [] : null);
+    html += `<div class="options">`;
+    opts.forEach(o=>{
+      const isSel = q.type==='multi' ? (selected||[]).includes(o.v) : selected===o.v;
+      html += `<div class="opt ${q.type==='single'?'radio':''} ${isSel?'selected':''}" onclick="selectOption('${q.id}','${o.v}')">
+        <div class="marker"></div>
+        <div style="flex:1;">${escapeHtml(o.t)}${o.hasOther && isSel ? `<div><input type="text" class="other-input" id="otherInput_${q.id}" placeholder="Please specify" value="${escapeHtml(otherText[q.id]||'')}" onclick="event.stopPropagation()" oninput="otherText['${q.id}']=this.value"/></div>`:''}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  else if (q.type==='brandscale'){
+    // paginated: one brand per screen (like reference's attribute-per-screen grid, inverted)
+    const brands = brandsFor(q);
+    if (brands.length===0){
+      html += `<div class="intro-body">No brands apply to your category selections – continuing.</div>`;
+      html += navRow(false);
+      card.innerHTML = html;
+      autoAdvanceEmpty(q, brands);
+      return;
+    }
+    const b = brands[subIndex];
+    const ans = answers[q.id] || {};
+    const scale = q.scale;
+    html += `<div class="attr-progress">${b.category ? escapeHtml(b.category)+' – ' : ''}Brand ${subIndex+1} of ${brands.length}</div>`;
+    html += `<div class="grid-row-label" style="font-size:19px;font-weight:700;">${escapeHtml(b.t)}</div>`;
+    if (q.numeric){
+      html += `<div class="numscale">`;
+      scale.forEach(s=>{
+        const isSel = ans[b.v]===s.v;
+        html += `<div class="numscale-btn ${isSel?'selected':''}" onclick="selectBrandScale('${q.id}','${b.v}',${s.v})">${s.v}</div>`;
+      });
+      html += `</div>`;
+      html += `<div class="numscale-legend"><span>${escapeHtml(scale[0].t)}</span><span>${escapeHtml(scale[scale.length-1].t)}</span></div>`;
+    } else {
+      html += `<div class="options">`;
+      scale.forEach(s=>{
+        const isSel = ans[b.v]===s.v;
+        html += `<div class="opt radio ${isSel?'selected':''}" onclick="selectBrandScale('${q.id}','${b.v}',${s.v})">
+          <div class="marker"></div><div style="flex:1;">${escapeHtml(s.t)}</div></div>`;
+      });
+      html += `</div>`;
+    }
+  }
+
+  else if (q.type==='matrix'){
+    // Q10: rows = attributes (per-brand short/full split), columns are fixed at 1 brand per screen too
+    // (13-attribute grid per brand, paginated brand-by-brand then attribute-by-attribute would be
+    // excessive on mobile – paginate by brand, show all its applicable attributes as a mini rating grid).
+    const brands = brandsFor(q);
+    if (brands.length===0){
+      html += `<div class="intro-body">No brands apply – continuing.</div>`;
+      html += navRow(false);
+      card.innerHTML = html;
+      autoAdvanceEmpty(q, brands);
+      return;
+    }
+    const b = brands[subIndex];
+    const rows = attributeRowsForBrand(b, STREAM).map(a=>({v:a.v, t:attributeText(a.v, STREAM)}));
+    const ans = answers[q.id] || {}; // { 'brandV|attrV': score }
+    html += `<div class="attr-progress">${b.category ? escapeHtml(b.category)+' – ' : ''}Brand ${subIndex+1} of ${brands.length}</div>`;
+    html += `<div class="grid-row-label" style="font-size:19px;font-weight:700;">${escapeHtml(b.t)}</div>`;
+    rows.forEach(row=>{
+      const key = b.v+'|'+row.v;
+      html += `<div class="grid-row-sub" style="margin:14px 0 6px;font-weight:600;">${escapeHtml(row.t)}</div>`;
+      html += `<div class="numscale">`;
+      for(let s=q.scaleMin;s<=q.scaleMax;s++){
+        const isSel = ans[key]===s;
+        html += `<div class="numscale-btn ${isSel?'selected':''}" onclick="selectMatrix('${q.id}','${b.v}','${row.v}',${s})">${s}</div>`;
+      }
+      html += `</div>`;
+    });
+  }
+
+  else if (q.type==='matrix1d'){
+    // fixed or Q2-piped rows, one shared labeled scale (Q13/Q15/Q17/Q21), paginated row-by-row
+    const rows = rowsFor(q);
+    const row = rows[subIndex];
+    const ans = answers[q.id] || {};
+    const scale = q.scale || null; // Q21 uses numeric 1-10 instead of a labeled scale
+    html += `<div class="attr-progress">Item ${subIndex+1} of ${rows.length}</div>`;
+    html += `<div class="grid-row-label" style="font-size:17px;">${escapeHtml(row.t)}</div>`;
+    if (scale){
+      html += `<div class="options">`;
+      scale.forEach(s=>{
+        const isSel = ans[row.v]===s.v;
+        html += `<div class="opt radio ${isSel?'selected':''}" onclick="selectMatrix1d('${q.id}','${row.v}',${s.v})">
+          <div class="marker"></div><div style="flex:1;">${escapeHtml(s.t)}</div></div>`;
+      });
+      html += `</div>`;
+    } else {
+      html += `<div class="numscale">`;
+      for(let s=q.scaleMin;s<=q.scaleMax;s++){
+        const isSel = ans[row.v]===s;
+        html += `<div class="numscale-btn ${isSel?'selected':''}" onclick="selectMatrix1d('${q.id}','${row.v}',${s})">${s}</div>`;
+      }
+      html += `</div>`;
+      html += `<div class="numscale-legend"><span>${q.scaleMin}</span><span>${q.scaleMax}</span></div>`;
+    }
+  }
+
+  html += `<div class="error-msg" id="errMsg"></div>`;
+  html += navRow(true);
+  card.innerHTML = html;
+}
+
+function navRow(showBackDefault){
+  const showBack = !(current<=1 && subIndex===0) && showBackDefault;
+  return `<div class="nav-row">
+    <button class="btn btn-ghost" onclick="goBack()" ${showBack?'':'style="visibility:hidden"'}>Back</button>
+    <button class="btn btn-primary" onclick="goNext()">Continue</button>
+  </div>`;
+}
+
+// A paginated question (brandscale/matrix) can legitimately have zero applicable
+// rows for a respondent (e.g. no brands rated "reasonably well" in Q8). Rather
+// than show a dead-end screen, auto-advance past it on render.
+function autoAdvanceEmpty(q, items){
+  if (items.length===0) setTimeout(()=>{ advanceToNextQuestion(); render(); }, 0);
+}
+
+/* ---------- selection handlers ---------- */
+function selectOption(qid, val){
+  const q = QUESTIONS.find(x=>x.id===qid);
+  if (q.type==='multi'){
+    if(!answers[qid]) answers[qid]=[];
+    const arr = answers[qid];
+    const opts = q.pipeFrom ? pipedOptions(q.pipeFrom) : qOptions(q);
+    const opt = opts.find(o=>o.v===val);
+    const i = arr.indexOf(val);
+    if (i>-1){ arr.splice(i,1); }
+    else if (opt && opt.exclusive){ arr.length=0; arr.push(val); }
+    else { opts.forEach(o=>{ if(o.exclusive){ const ei=arr.indexOf(o.v); if(ei>-1) arr.splice(ei,1); } }); arr.push(val); }
+  } else {
+    answers[qid]=val;
+    if (q.onAnswer) q.onAnswer(val);
+  }
+  render();
+}
+function selectBrandScale(qid, brandV, score){
+  if(!answers[qid]) answers[qid]={};
+  answers[qid][brandV]=score;
+  render();
+}
+function selectMatrix(qid, brandV, rowV, score){
+  if(!answers[qid]) answers[qid]={};
+  answers[qid][brandV+'|'+rowV]=score;
+  render();
+}
+function selectMatrix1d(qid, rowV, score){
+  if(!answers[qid]) answers[qid]={};
+  answers[qid][rowV]=score;
+  render();
+}
+
+/* ---------- validation ---------- */
+function currentAnswerValid(q){
+  if (q.type==='intro' || q.type==='end') return true;
+
+  if (q.type==='single'){
+    if(!answers[q.id]) return false;
+    const opts = q.pipeFrom ? pipedOptions(q.pipeFrom) : qOptions(q);
+    const o = opts.find(o=>o.v===answers[q.id]);
+    if (o && o.hasOther && !(otherText[q.id]||'').trim()) return false;
+    return true;
+  }
+  if (q.type==='multi'){
+    if(!answers[q.id] || answers[q.id].length===0) return false;
+    const opts = qOptions(q);
+    const hasOtherSelected = answers[q.id].some(v=>{ const o=opts.find(o=>o.v===v); return o && o.hasOther; });
+    if (hasOtherSelected && !(otherText[q.id]||'').trim()) return false;
+    return true;
+  }
+  if (q.type==='brandscale'){
+    const brands = brandsFor(q);
+    if (brands.length===0) return true; // auto-advances
+    const b = brands[subIndex];
+    const ans = answers[q.id]||{};
+    return ans[b.v]!==undefined;
+  }
+  if (q.type==='matrix'){
+    const brands = brandsFor(q);
+    if (brands.length===0) return true;
+    const b = brands[subIndex];
+    const rows = attributeRowsForBrand(b, STREAM);
+    const ans = answers[q.id]||{};
+    return rows.every(r => ans[b.v+'|'+r.v]!==undefined);
+  }
+  if (q.type==='matrix1d'){
+    const rows = rowsFor(q);
+    const row = rows[subIndex];
+    const ans = answers[q.id]||{};
+    return ans[row.v]!==undefined;
+  }
+  return true;
+}
+
+function paginatedLength(q){
+  if (q.type==='brandscale' || q.type==='matrix') return Math.max(brandsFor(q).length,1);
+  if (q.type==='matrix1d') return Math.max(rowsFor(q).length,1);
+  return 1;
+}
+
+/* ---------- screener / terminate ---------- */
+function checkDisqualifiers(q){
+  const opts = q.pipeFrom ? pipedOptions(q.pipeFrom) : qOptions(q);
+  if ((q.type==='single') && opts){
+    const o = opts.find(o=>o.v===answers[q.id]);
+    if (o && o.disqualify) return `Disqualified at ${q.id}: ${o.t}`;
+  }
+  return null;
+}
+function terminate(reason){
+  terminated = true;
+  document.getElementById('brandbar').style.display='flex';
+  document.querySelector('.progress-track').style.display='none';
+  card.innerHTML = `<div class="end-screen"><h2>Thank you for your time</h2>
+    <p>At this time, you don't qualify for this particular survey. We're genuinely grateful you gave it a go.</p></div>`;
+  lockThisRef();
+  submitData('Disqualified', reason);
+}
+
+/* ---------- quota check stub – wired to Apps Script in step 3 ---------- */
+async function checkQuota(q){
+  if (q.id!=='Q3') return null;
+  const opt = qOptions(q).find(o=>o.v===answers[q.id]);
+  if (!opt || !opt.quotaCheck) return null;
+  try{
+    const res = await fetch(SCRIPT_URL+'?action=checkQuota&stream='+STREAM+'&co='+encodeURIComponent(CO)+'&isUser='+(opt.quotaCheck==='user'));
+    const data = await res.json();
+    if (data.quotaFull) return 'Over quota: '+data.reason;
+  }catch(e){ /* fail open if backend unreachable */ }
+  return null;
+}
+
+/* ---------- flow ---------- */
+async function goNext(){
+  const q = QUESTIONS[current];
+  const err = document.getElementById('errMsg'); if (err) err.textContent='';
+
+  if (q.type!=='intro' && q.type!=='end'){
+    if(!currentAnswerValid(q)){ if(err) err.textContent='Please answer before continuing.'; return; }
+    const dq = checkDisqualifiers(q);
+    if (dq){ terminate(dq); return; }
+    const quotaReason = await checkQuota(q);
+    if (quotaReason){ terminate(quotaReason); return; }
+  }
+
+  const plen = paginatedLength(q);
+  if ((q.type==='brandscale'||q.type==='matrix'||q.type==='matrix1d') && subIndex < plen-1){
+    subIndex++; render(); return;
+  }
+  subIndex = 0;
+  advanceToNextQuestion();
+
+  if (QUESTIONS[current].type==='end'){ lockThisRef(); submitData('Complete'); }
+  render();
+}
+function advanceToNextQuestion(){
+  let next = current+1;
+  while(next < QUESTIONS.length){
+    const nq = QUESTIONS[next];
+    if (nq.skipIf && nq.skipIf(answers)){ next++; continue; }
+    break;
+  }
+  current = next;
+}
+function goBack(){
+  const q = QUESTIONS[current];
+  if ((q.type==='brandscale'||q.type==='matrix'||q.type==='matrix1d') && subIndex>0){ subIndex--; render(); return; }
+  let prev = current-1;
+  while(prev>0){
+    const pq = QUESTIONS[prev];
+    if (pq.skipIf && pq.skipIf(answers)){ prev--; continue; }
+    break;
+  }
+  current = prev;
+  const pq = QUESTIONS[current];
+  if (pq.type==='brandscale'||pq.type==='matrix'||pq.type==='matrix1d') subIndex = paginatedLength(pq)-1;
+  render();
+}
+
+/* ---------- submission ---------- */
+function flattenAnswersForSubmit(){
+  const out = {};
+  QUESTIONS.forEach(q=>{
+    if (!(q.id in answers)) return;
+    const v = answers[q.id];
+    if (Array.isArray(v)) out[q.id] = v.join('|');
+    else if (typeof v==='object') out[q.id+'_Grid'] = v;
+    else out[q.id] = v;
+    if (otherText[q.id]) out[q.id+'_Other'] = otherText[q.id];
+  });
+  return out;
+}
+function submitData(status, reason){
+  const payload = { status, reason: reason||'', ref:REF, stream:STREAM, co:CO,
+    lastQuestion: QUESTIONS[current].id, answers: flattenAnswersForSubmit() };
+  try{ fetch(SCRIPT_URL, { method:'POST', body: JSON.stringify(payload) }); }catch(e){}
+}
+
+/* ---------- one-time-use link lock (per TMG SOP: client-side first, then server) ---------- */
+function localLockKey(){ return 'cgs_used_' + REF; }
+function lockThisRef(){ if(!REF) return; try{ localStorage.setItem(localLockKey(), '1'); }catch(e){} }
+function showAlreadyUsedScreen(){
+  document.getElementById('brandbar').style.display='flex';
+  document.querySelector('.progress-track').style.display='none';
+  card.innerHTML = `<div class="end-screen"><h2>This link has already been used</h2>
+    <p>Our records show this survey link has already been completed. Each link is unique to one respondent, so it can only be submitted once. If you believe this is a mistake, please get in touch with the team that sent you this link.</p></div>`;
+}
+async function isLinkAlreadyUsed(){
+  if (!REF) return false;
+  try{ if (localStorage.getItem(localLockKey())==='1') return true; }catch(e){}
+  try{
+    const res = await fetch(SCRIPT_URL+'?action=checkLock&ref='+encodeURIComponent(REF));
+    const data = await res.json();
+    if (data.locked){ lockThisRef(); return true; }
+  }catch(e){ /* fail open if backend unreachable */ }
+  return false;
+}
+
+async function init(){
+  if (!REF){
+    document.getElementById('brandbar').style.display='flex';
+    document.querySelector('.progress-track').style.display='none';
+    card.innerHTML = `<div class="end-screen"><h2>This link is invalid</h2>
+      <p>This survey link is missing its respondent reference and cannot be opened directly. Please use the personalised link provided to you, or contact the team that sent it if the problem continues.</p></div>`;
+    return;
+  }
+  const used = await isLinkAlreadyUsed();
+  if (used){ showAlreadyUsedScreen(); return; }
+  try{ fetch(SCRIPT_URL+'?action=start&ref='+encodeURIComponent(REF)); }catch(e){}
+  render();
+}
+init();
+
+</script>
+</body></html>
