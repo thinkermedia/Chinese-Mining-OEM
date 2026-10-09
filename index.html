@@ -406,7 +406,8 @@ function brandsForRespondent(answers){
     [...c.western.map(b=>({...b, origin:'western'})), ...c.chinese.map(b=>({...b, origin:'chinese'}))]
       .forEach(b=> out.push({...b, category:key, isPrimary}));
   });
-  return out;
+  // primary-category brands first, so the full-attribute brands are grouped together
+  return out.filter(b=>b.isPrimary).concat(out.filter(b=>!b.isPrimary));
 }
 
 /* ---------- Attribute list (Q10 / Q21), 13 rows, 2 stream-worded ---------- */
@@ -600,7 +601,9 @@ const QUESTIONS = [
     text:'Q1 (cont.). Role in purchasing', sub:'(Select one)',
     options:[
       {v:'decisionmaker', t:'Final decision-maker'}, {v:'recommender', t:'Recommender or specifier'},
-      {v:'evaluator', t:'Evaluator or technical assessor'}, {v:'influencer', t:'Influencer'}
+      {v:'evaluator', t:'Evaluator or technical assessor'}, {v:'influencer', t:'Influencer'},
+      {v:'minimal', t:'Minimal contributing influence', disqualify:true},
+      {v:'none', t:'No practical influence in the buying process', disqualify:true}
     ]},
   { id:'Q1_function', section:'Section A', sectionDesc:'Screener and profile', type:'single',
     text:'Q1 (cont.). Function', sub:'(Select one)',
@@ -749,14 +752,14 @@ const QUESTIONS = [
   { id:'Q10', section:'Section C', sectionDesc:'Brand analysis: head-to-head', type:'matrix',
     text:'Q10. Please rate each brand you know reasonably well on the following attributes.', sub:'(Scale 1 = very poor to 10 = excellent, one attribute per screen)',
     rowsSource:'attributesPerBrand', // full 13 for primary-category brands, short 5 for others (Stream A); full 13 always (Stream B)
-    brandsSource:'familiarFromQ8AndQ9', // confirmed: both gates must pass (Q8>=3 AND Q9 in {1,2})
+    brandsSource:'familiarFromQ8', // per brief: brands rated reasonably well or better in Q8 carry into Q9 to Q11
     scaleMin:1, scaleMax:10
   },
   { id:'Q11', section:'Section C', sectionDesc:'Brand analysis: head-to-head', type:'brandscale',
     text:'Q11. How much would you trust each of these brands to deliver and support a mission-critical [fleet/plant] at one of your operations for the next 10 years?', sub:'(0 = no trust at all, 10 = complete trust)',
     numeric: true,
     scale: Array.from({length:11}, (_,i)=>({v:i, t: i===0 ? '0 - no trust at all' : (i===10 ? '10 - complete trust' : String(i))})),
-    brandsSource:'familiarFromQ8AndQ9'
+    brandsSource:'familiarFromQ8'
   },
 
   /* ---------------- SECTION D: Selection criteria (Q12-Q14) ---------------- */
@@ -842,7 +845,7 @@ const QUESTIONS = [
   /* ---------------- SECTION G: Western incumbent (Q21-Q24) ---------------- */
   { id:'Q21', section:'Section G', sectionDesc:'The Western incumbent: satisfaction and vulnerability', type:'matrix1d',
     text:'Q21. Thinking of your principal Western equipment supplier in your primary category, how satisfied are you with them on each of the following?', sub:'(Scale 1 = very dissatisfied to 10 = very satisfied, one attribute per screen)',
-    rows: ATTRIBUTES_13.map(a=>({v:a.v, t: a.v==='techinnov'||a.v==='software' ? attributeText(a.v, STREAM) : a.t})),
+    rowsFn: ()=> ATTRIBUTES_13.map(a=>({v:a.v, t: a.v==='techinnov'||a.v==='software' ? attributeText(a.v, STREAM) : a.t})),
     scaleMin:1, scaleMax:10 },
   { id:'Q22', section:'Section G', sectionDesc:'The Western incumbent: satisfaction and vulnerability', type:'multi',
     text:'Q22. Which of the following, if any, has your incumbent Western supplier done in the last two years that has made you more open to considering alternatives?', sub:'(Select all that apply)',
@@ -864,7 +867,8 @@ const QUESTIONS = [
 
   /* ---------------- SECTION H: Autonomy / automation (Q25-Q26, fully stream-specific) ---------------- */
   { id:'Q25', section:'Section H', sectionDesc:'Autonomy, automation and technology partnerships', type:'single',
-    text: STREAM==='A'
+    text:'',
+    textFn: ()=> STREAM==='A'
       ? "Q25. China now hosts the majority of the world's most heavily autonomous mines by number of trucks, and remote-control excavation is widespread there. Does that operating experience make you more or less confident in Chinese suppliers of autonomous, tele-remote and connected systems?"
       : "Q25. Chinese processing plants are generally less automated than Western concentrators, even though Chinese mines lead the world in autonomous truck numbers. Does the level of automation typical of Chinese plants affect your confidence in Chinese fixed-plant suppliers?",
     sub:'(Select one)',
@@ -880,7 +884,8 @@ const QUESTIONS = [
       ]
     }},
   { id:'Q26', section:'Section H', sectionDesc:'Autonomy, automation and technology partnerships', type:'single',
-    text: STREAM==='A'
+    text:'',
+    textFn: ()=> STREAM==='A'
       ? 'Q26. For your next autonomous haulage or tele-remote operation decision, which supply model would you prefer?'
       : 'Q26. For your next plant control system or process automation decision, which supply model would you prefer?',
     sub:'(Select one)',
@@ -955,7 +960,7 @@ function escapeHtml(str){
 
 /* ---------- stream-aware text/option resolution ---------- */
 function qText(q){
-  let t = q.text;
+  let t = q.textFn ? q.textFn() : q.text;
   if (q.branchNote){
     t = t.replace('[components]', q.branchNote[STREAM]||'')
          .replace('[scope]', q.branchNote[STREAM]||'')
@@ -1007,6 +1012,7 @@ function brandsFor(q){
 }
 function rowsFor(q){
   if (q.rowsSource==='pipeFromQ2') return pipedOptions('Q2');
+  if (q.rowsFn) return q.rowsFn();
   if (q.rows) return q.rows;
   return [];
 }
