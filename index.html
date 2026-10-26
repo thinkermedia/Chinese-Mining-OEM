@@ -384,6 +384,8 @@ function brandCategoriesForStream(){ return STREAM==='A' ? BRAND_CATEGORIES_A : 
 // return the list of brand-category keys that apply to them.
 function applicableBrandCategories(answers){
   const cats = brandCategoriesForStream();
+  // Stream B: the six crushing and grinding brands go to every Stream B respondent (per brief)
+  if (STREAM==='B') return Object.keys(cats);
   const q2Selected = answers['Q2'] || [];
   const commodities = answers['Q1_commodities'] || [];
   return Object.keys(cats).filter(key=>{
